@@ -1,0 +1,9 @@
+{
+	"name": "UI",
+	"author": "PerrySelensol",
+	"color": "#80d0ff",
+	"autoScripts": [
+		"xrinters.lua",
+		"main.lua"
+	]
+}
