@@ -3,6 +3,7 @@ local UI_Elements = require("./uiElements")
 --[=============================================================================]--
 
 local Box = UI_Elements:new{
+	name = "box",
 
 	width = 0,
 	height = 0,
@@ -15,16 +16,15 @@ local Box = UI_Elements:new{
 
 }
 
-function Box:new(box)
-	box = box or {}
-	setmetatable(box, self)
-	self.__index = self
-
-	box.children = box.children or {}
-	
-	box.color = box.color or vec(math.random(),math.random(),math.random())
-
-	return box
+do
+	local new = Box.new
+	function Box:new(o)
+		o = new(self, o)
+		o.pos = vec(0,0)
+		o.children = {}
+		o.color = o.color or vec(math.random(),math.random(),math.random())
+		return o
+	end
 end
 
 function Box:theme(sprite, elementUnderCursor)

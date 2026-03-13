@@ -1,27 +1,29 @@
 local Box = require("./box")
-local Text = require("./text")
-local themes = require("./themes")
 
 --[=============================================================================]--
 
-local List = Box:new()
+local List = Box:new{
+	name = "list",
 
-function List:new(width, height, listSize)
+	type = "fixed_and_center",
+	direction = "vertical",
 
-	local list = {
-		name = "list",
-		type = "fixed_and_center",
-		direction = "vertical",
-		width = width,
-		height = height,
-		children = {indexMin = 0, indexMax = listSize},
-		padding = {top = 0, left = 0, bottom = 0, right = 4},
-		color = vec(0,0,0)
-	}
-	setmetatable(list, self)
-	self.__index = self
+	padding = {top = 0, left = 0, bottom = 0, right = 4},
 
-	return list
+	color = vec(0,0,0)
+}
+
+do
+	local new = List.new
+	function List:new(width, height, listSize)
+		local o = new(self, {
+			width = width,
+			height = height
+		})
+		o.children.indexMin = 0
+		o.children.indexMax = listSize
+		return o
+	end
 end
 
 function List:theme(sprite)

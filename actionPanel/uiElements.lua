@@ -2,12 +2,11 @@
 
 local UI_Elements = {}
 
-function UI_Elements:new(element)
-	element = element or {}
-	setmetatable(element, self)
+function UI_Elements:new(o)
+	o = o or {}
+	setmetatable(o, self)
 	self.__index = self
-
-	return element
+	return o
 end
 
 function UI_Elements:addElement(element)

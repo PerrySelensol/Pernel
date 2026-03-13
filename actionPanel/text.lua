@@ -4,22 +4,21 @@ local hudPart, sprite, Text_Tasks = require("./uiTasks")
 --[=============================================================================]--
 
 local Text = UI_Elements:new{
+	name = "text",
 
 	width = 0,
 	height = 0,
 
-	pos = vec(0,0),
-
+	children = {}
 }
 
-function Text:new(text)
-	text = text or {}
-	setmetatable(text, self)
-	self.__index = self
-
-	text.children = {}
-
-	return text
+do
+	local new = Text.new
+	function Text:new(o)
+		o = new(self, o)
+		o.pos = vec(0,0)
+		return o
+	end
 end
 
 function Text:render(sprite, activeElement)
@@ -31,8 +30,8 @@ end
 
 function Text:receiveCursorPos(cursorPos) end
 
-function Text:fitWidth(parent) do return end
-
+function Text:fitWidth(parent)
+--[[
 	if self.type == "fit" then self.width = 0 end
 
 	for _, child in limitedIter, self.children, self.children.indexMin or 0 do
@@ -54,10 +53,11 @@ function Text:fitWidth(parent) do return end
 			parent.width = math.max(parent.width, self.offset.x + self.width)
 		end
 	end
+--]]
 end
 
-function Text:fitHeight(parent) do return end
-
+function Text:fitHeight(parent)
+--[[
 	if self.type == "fit" then self.height = 0 end
 
 	for _, child in limitedIter, self.children, self.children.indexMin or 0 do
@@ -79,12 +79,11 @@ function Text:fitHeight(parent) do return end
 			parent.height = math.max(parent.height, self.offset.y + self.height)
 		end
 	end
+--]]
 end
 
 function Text:calculatePosition(parent, givenOffset)
-
 	self.pos = ((parent and parent.pos) or vec(0,0)) + vec(parent.padding.left, parent.padding.top)
-
 end
 
 return Text

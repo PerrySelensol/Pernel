@@ -1,8 +1,8 @@
 --[=============================================================================]--
 
-local themes = {}
+local Themes = {}
 
-function themes.mcWindow(self, sprite)
+function Themes:mcWindow(sprite)
 	local x, y, dx, dy = self.pos.x, self.pos.y, self.width, self.height
 
 	for i = 0, 2 do for j = 0, 1 do
@@ -19,7 +19,7 @@ function themes.mcWindow(self, sprite)
 	sprite:fill(x+7, y+7, dx-14, dy-14, vec(0,0,0,1))
 end
 
-function themes.basicBox(self, sprite)
+function Themes:basicBox(sprite)
 	sprite:fill(
 		self.pos.x,
 		self.pos.y,
@@ -29,4 +29,4 @@ function themes.basicBox(self, sprite)
 	)
 end
 
-return themes
+return Themes

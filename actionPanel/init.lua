@@ -4,27 +4,13 @@ local hudPart, sprite, Text_Tasks = require("./uiTasks")
 
 --[=============================================================================]--
 
-local root = Box:new{
-	name = "root",
+local activeWindow
+local actionPanel = {}
 
-	type = "fixed",
-	direction = "free",
-
-	color = vec(1/2,1/2,1/2,0.6),
-	pos = vec(0,0),
-	offset = vec(0,0),
-	width = 1920/4,
-	height = 1080/4,
-	padding = {top = 0, left = 0, bottom = 0, right = 0},
-
-	render = function(self, sprite, activeElement)
-		for _, child in ipairs(self.children) do
-			child:render(sprite, activeElement)
-		end
-	end
-}
-
-root.newWindow = Window.new
+function actionPanel:newWindow(pos, size)
+	return Window:new(pos, size)
+end
+function actionPanel:setWindow(win) activeWindow = win end
 
 -- ============ Register Events ============ --
 
@@ -88,23 +74,25 @@ if host:isHost() then
 		for i = 1, #Text_Tasks do Text_Tasks[i]:setVisible(false) end
 		Text_Tasks.index = 1
 
+		local activeWinUI = activeWindow.elements.frame
+
+		activeWinUI:fitWidth()
+		activeWinUI:fitHeight()
+		activeWinUI:calculatePosition()
+
+		if mouseState == 0 then
+			local mousePos = client.getMousePos()/client.getGuiScale()
+			highlightElement, clickElement, scrollElement = activeWinUI:receiveCursorPos(mousePos)
+		end
+
+		activeWinUI:render(sprite, highlightElement)
+		sprite:update()
+
 		--drint(
 		--	highlightElement and highlightElement.name,
 		--	clickElement and clickElement.name,
 		--	scrollElement and scrollElement.name
 		--)
-
-		root:fitWidth()
-		root:fitHeight()
-		root:calculatePosition()
-
-		if mouseState == 0 then
-			local mousePos = client.getMousePos()/client.getGuiScale()
-			highlightElement, clickElement, scrollElement = root:receiveCursorPos(mousePos)
-		end
-
-		root:render(sprite, highlightElement)
-		sprite:update()
 	end
 
 	function events.char_typed(char, modifier, codepoint)
@@ -175,4 +163,4 @@ end end
 --end end
 
 
-return root
+return actionPanel

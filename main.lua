@@ -1,23 +1,17 @@
---require("../funnyDemo")
-
 local actionPanel = require("actionPanel/init")
 
-local Box = require("actionPanel/box")
-local Text = require("actionPanel/text")
+--[=============================================================================]--
 
-local win = actionPanel:newWindow(vec(120,36), vec(240,168))
+Window1 = actionPanel:newWindow(vec(120,36), vec(240,168))
+actionPanel:setWindow(Window1)
 
-for i = 1, 16 do
-	local list = win:addElement(Box:new{
-		name = "box"..i,
-		type = "fixed",
-		width = win.width-3, --math.round(math.lerp(0,7,math.random()))*4,
-		height = 17,
-		padding = {top = 5, left = 5, bottom = 5, right = 5}
-	})
-	list:addElement(Text:new{
-		text = i
-	})
+for i = 1, 47 do
+	local action = Window1:newAction(i)
+	if math.random() < 0.5 then
+		action.leftClick = function() host:setActionbar("Triggered "..i) end
+	else
+		action.toggle = function(state) host:setActionbar("Toggle "..i.." is now "..(state and "true" or "false")) end
+	end
 end
 
 function events.mouse_press(button, action, modifer)
