@@ -1,5 +1,5 @@
-local Box = require("./box")
-local Text = require("./text")
+local Box = require("../primitives/box")
+local Text = require("../primitives/text")
 
 --[=============================================================================]--
 
@@ -25,9 +25,9 @@ do
 	end
 end
 
-function Button:theme(sprite, elementUnderCursor)
+function Button:theme(sprite, activeElement)
 	local accent = vec(0,0,0,192)/255
-	local selected = elementUnderCursor == self
+	local selected = activeElement == self
 	local active = self.isActive
 	if		selected and not active	then accent = vec(20,20,20,192)/255
 	elseif	selected and active		then accent = (self.color/1.5):augmented(192/255)
@@ -37,17 +37,37 @@ function Button:theme(sprite, elementUnderCursor)
 	sprite:fill(
 		self.pos.x,
 		self.pos.y,
-		1,
-		self.height,
-		self.color
-	)
-	sprite:fill(
-		self.pos.x+1,
-		self.pos.y,
-		self.width-1,
+		self.width,
 		self.height,
 		accent
 	)
+	if self.toggle then
+		sprite:fill(
+			self.pos.x+self.width-13,
+			self.pos.y+4,
+			9,
+			9,
+			vec(1,1,1)
+		)
+		sprite:fill(
+			self.pos.x+self.width-12,
+			self.pos.y+5,
+			7,
+			7,
+			accent
+		)
+		if self.isActive then
+			sprite:fill(
+				self.pos.x+self.width-11,
+				self.pos.y+6,
+				5,
+				5,
+				self.color
+			)
+		end
+	else
+
+	end
 end
 
 function Button:clickAction(button, action, modifier)

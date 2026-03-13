@@ -1,4 +1,4 @@
-local Box = require("./box")
+local Box = require("../primitives/box")
 
 --[=============================================================================]--
 
@@ -26,7 +26,7 @@ do
 	end
 end
 
-function List:theme(sprite)
+function List:theme(sprite, activeElement)
 	local totalCount = math.max(1,#self.children)
 	local visibleCount = math.max(1,self.children.indexMax-self.children.indexMin)
 	local barPos = math.floor(self.children.indexMin*self.height/totalCount)
@@ -45,14 +45,6 @@ function List:theme(sprite)
 		barHeight,
 		vec(1,1,1)
 	)
-	--sprite:fill(
-	--	self.pos.x,
-	--	self.pos.y,
-	--	self.width,
-	--	self.height,
-	--	vec(1,1,1)
-	--)
-
 end
 
 function List:scrollAction(delta)

@@ -1,21 +1,24 @@
-local Box = require("./box")
-local List = require("./list")
-local Text = require("./text")
-local Button = require("./button")
-local Themes = require("./themes")
+local actionPanel = require("../actionPanel")
+local Box = require("../primitives/box")
+local List = require("../elements/list")
+local Text = require("../primitives/text")
+local Button = require("../widgets/button")
+local Themes = require("../elements/themes")
 
 --[=============================================================================]--
 
 local Window = {}
 
-function Window:new(pos, size)
+function Window:new(title, pos, size)
 
 	local o = {elements = {}}
 	setmetatable(o, self)
 	self.__index = self
 
-	local offset = pos or vec(120,28)
-	local width, height = (size and size.x) or 240, (size and size.y) or 180
+	local offset = pos or vec(120, 50)
+	local width, height = (size and size.x) or 240, (size and size.y) or 168
+
+	self.winPos, self.winSize = offset, vec(width,height)
 
 	o.elements.frame = Box:new{
 		name = "frame",
@@ -40,7 +43,7 @@ function Window:new(pos, size)
 	})
 
 	o.elements.breadCrumbs:addElement(Text:new{
-		text = "/ home > walls > door"
+		text = "> "..(title or "")
 	})
 
 	o.elements.listPart = o.elements.frame:addElement(List:new(width-16, height-32, 8))
@@ -54,8 +57,38 @@ function Window:newAction(title)
 		width = self.elements.listPart.width-3,
 		height = 17
 	})
-	action.children[1].text = title or "Action"
+	action.children[1].text = title
 	return action
+end
+
+local function folderTheme(self, sprite, activeElement)
+	local selected = activeElement == self
+	local accent = selected and vec(20,20,20,192)/255 or vec(0,0,0,192)/255
+
+	sprite:fill(
+		self.pos.x,
+		self.pos.y,
+		self.width,
+		self.height,
+		accent
+	)
+	sprite:fill(
+		self.pos.x,
+		self.pos.y,
+		1,
+		self.height,
+		self.color
+	)
+end
+
+function Window:newFolder(title)
+	local window = self:new(title, self.winPos, self.winSize)
+	window.parentDirectory = self
+
+	local action = self:newAction(title)
+	action.theme = folderTheme
+	action.leftClick = function() actionPanel:setWindow(window) end
+	return window
 end
 
 function Window:render(sprite, activeElement)

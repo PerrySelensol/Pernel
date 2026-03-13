@@ -27,7 +27,7 @@ do
 	end
 end
 
-function Box:theme(sprite, elementUnderCursor)
+function Box:theme(sprite, activeElement)
 	sprite:fill(
 		self.pos.x,
 		self.pos.y,
@@ -40,7 +40,7 @@ function Box:theme(sprite, elementUnderCursor)
 		self.pos.y+1,
 		self.width-2,
 		self.height-2,
-		(elementUnderCursor==self) and vec(1,1,1,0.5) or vec(0,0,0,0.5)
+		(activeElement==self) and vec(1,1,1,0.5) or vec(0,0,0,0.5)
 	)
 end
 
