@@ -13,6 +13,6 @@ hudPart:newSprite("UI")
 	:setLight(15,15)
 
 local Text_Tasks = {index = 1}
-for i = 1, 20 do Text_Tasks[i] = hudPart:newText("UIText"..i):setVisible(false) end
+for i = 1, 20 do Text_Tasks[i] = hudPart:newText("UIText"..i):shadow(true):setVisible(false) end
 
 return hudPart, sprite, Text_Tasks

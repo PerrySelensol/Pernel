@@ -5,6 +5,7 @@ local actionPanel = require("actionPanel/init")
 Window1 = actionPanel:newWindow("", vec(120,50), vec(240,168))
 actionPanel:setWindow(Window1)
 
+--[[
 for i = 1, 47 do
 	local t = math.random()
 	if t < 0.3 then
@@ -29,6 +30,15 @@ for i = 1, 47 do
 		end
 	end
 end
+--]]
+
+local action = Window1:newAction("Button")
+action.leftClick = function() host:setActionbar("Clicked button") end
+local toggle = Window1:newAction("Toggle")
+toggle.toggle = function(state) host:setActionbar("Toggle set to "..(state and "true" or "false")) end
+local textfield1 = Window1:newTextField("test", "Some Text", "Text Field")
+local textfield2 = Window1:newTextField("test", "abc", "Field (exactly 3 chars)")
+function textfield2.verify(text) assert(text:len() == 3) end
 
 function events.mouse_press(button, action, modifer)
 	--drint(button, action, modifer)

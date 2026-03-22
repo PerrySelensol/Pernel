@@ -3,9 +3,12 @@ local hudPart, sprite, Text_Tasks = require("./primitives/uiTasks")
 --[=============================================================================]--
 
 local activeWindow
+local activeTextField
 local actionPanel = {}
+local storage = {}
 
 function actionPanel:setWindow(win) activeWindow = win end
+function actionPanel:setTextField(field) activeTextField = field end
 
 -- ============ Register Events ============ --
 
@@ -87,7 +90,7 @@ function actionPanel:initialize()
 			highlightElement, clickElement, scrollElement = activeWinUI:receiveCursorPos(mousePos)
 		end
 
-		activeWinUI:render(sprite, highlightElement)
+		activeWinUI:render(sprite, highlightElement, activeTextField)
 		sprite:update()
 
 		--drint(
@@ -98,8 +101,8 @@ function actionPanel:initialize()
 	end
 
 	function events.char_typed(char, modifier, codepoint)
-		if not (hudPart:getVisible() and Active_Prompt) then return end
-		Active_Prompt.current_string = Active_Prompt.current_string..char
+		if not (hudPart:getVisible() and activeTextField) then return end
+		activeTextField.textBuffer = activeTextField.textBuffer..char
 	end
 
 	function events.key_press(key, action, modifer)
@@ -107,9 +110,9 @@ function actionPanel:initialize()
 
 		if key == 256 then -- Esc
 
-			if Active_Prompt then
-				Active_Prompt.current_string = ""
-				Active_Prompt = nil
+			if activeTextField then
+				activeTextField.textBuffer = ""
+				activeTextField = nil
 			else
 				hudPart:setVisible(false)
 				host.unlockCursor = false
@@ -117,23 +120,23 @@ function actionPanel:initialize()
 			end
 			return true
 
-		elseif key == 259 and Active_Prompt then -- Backspace
+		elseif key == 259 and activeTextField then -- Backspace
 
-			Active_Prompt.current_string = Active_Prompt.current_string:sub(1, -2)
+			activeTextField.textBuffer = activeTextField.textBuffer:sub(1, -2)
 
-		elseif key == 257 and Active_Prompt and Active_Prompt.toValue then -- Enter
+		elseif key == 257 and activeTextField then -- Enter
 
-			local valid, converted = pcall(Active_Prompt.toValue, Active_Prompt.current_string)
-			if valid then
-				Active_Prompt.table[Active_Prompt.key] = converted
-				if Active_Prompt.argsHandler then Active_Prompt.argsHandler(Active_Prompt.current_string) end
-			else
-				host:setActionbar("Invalid Value!")
+			if activeTextField.verify then
+				if not pcall(activeTextField.verify, activeTextField.textBuffer) then
+					host:setActionbar("Invalid Value!")
+					return true
+				end
 			end
-			Active_Prompt.current_string = ""
-			Active_Prompt = nil
+			activeTextField.textValue = activeTextField.textBuffer
+			activeTextField.textBuffer = ""
+			activeTextField = nil
 
-		elseif Active_Prompt then
+		elseif activeTextField then
 
 			return true
 
@@ -159,8 +162,12 @@ end end
 local keyUp = keybinds:newKeybind("Go up a Folder", "key.mouse.4")
 keyUp.press = function()
 	if hudPart:getVisible() and activeWindow.parentDirectory then
+		if activeTextField then
+			activeTextField.textBuffer = ""
+			activeTextField = nil
+		end
 		actionPanel:setWindow(activeWindow.parentDirectory)
 	end
 end
 
-return actionPanel
+return actionPanel, storage

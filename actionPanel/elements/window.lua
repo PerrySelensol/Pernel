@@ -3,6 +3,7 @@ local Box = require("../primitives/box")
 local List = require("../elements/list")
 local Text = require("../primitives/text")
 local Button = require("../widgets/button")
+local TextField = require("../widgets/textfield")
 local Themes = require("../elements/themes")
 
 --[=============================================================================]--
@@ -89,6 +90,21 @@ function Window:newFolder(title)
 	action.theme = folderTheme
 	action.leftClick = function() actionPanel:setWindow(window) end
 	return window
+end
+
+function Window:newTextField(key, value, title)
+	local field = self.elements.listPart:addElement(TextField:new{
+		width = self.elements.listPart.width-3,
+		height = 17
+	})
+
+	field.title = title
+	field.textValue = value or ""
+	field.textBuffer = ""
+
+	field.children[1].text = title.." "..value
+	
+	return field
 end
 
 function Window:render(sprite, activeElement)

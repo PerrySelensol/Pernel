@@ -52,10 +52,10 @@ local function limitedIter(table, i)
 	end
 end
 
-function Box:render(sprite, activeElement)
-	self:theme(sprite, activeElement)
+function Box:render(...)
+	self:theme(...)
 	for _, child in limitedIter, self.children, self.children.indexMin or 0 do
-		child:render(sprite, activeElement)
+		child:render(...)
 	end
 end
 
