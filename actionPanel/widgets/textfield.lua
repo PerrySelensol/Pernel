@@ -25,8 +25,8 @@ do
 	end
 end
 
-function TextField:clickAction(button, action, modifier)
-	if action == 1 and button == 0 then
+function TextField:clickAction(button, modifier)
+	if button == 0 then
 		actionPanel:setTextField(self)
 	end
 end
@@ -41,7 +41,7 @@ function TextField:theme(sprite, activeElement, activeTextField)
 	end
 
 	if active then self.children[1].text = self.title.." : "..self.textBuffer.."_"
-	else self.children[1].text = self.title.." : "..self.textValue
+	else self.children[1].text = self.title.." : "..storage[self.boundDataKey]
 	end
 
 	sprite:fill(

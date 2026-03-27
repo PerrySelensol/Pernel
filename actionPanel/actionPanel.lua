@@ -27,15 +27,15 @@ function actionPanel:initialize()
 
 			button, action, modifier = b, a, m
 
+			if action == 0 and mouseState == 0 and clickElement and clickElement.clickAction then
+				clickElement:clickAction(button, modifier)
+			end
+
 			if action == 1 then
 				clickedPos = client.getMousePos()
 			else
 				mouseState = 0
 				moveAccum:reset()
-			end
-
-			if clickElement and clickElement.clickAction then
-				clickElement:clickAction(button, action, modifier)
 			end
 
 		end
@@ -126,13 +126,17 @@ function actionPanel:initialize()
 
 		elseif key == 257 and activeTextField then -- Enter
 
-			if activeTextField.verify then
-				if not pcall(activeTextField.verify, activeTextField.textBuffer) then
-					host:setActionbar("Invalid Value!")
-					return true
-				end
+			local valid, mappedInput = true, nil
+			if activeTextField.dataMap then
+				valid, mappedInput = pcall(activeTextField.dataMap, activeTextField.textBuffer)
+			else
+				mappedInput = activeTextField.textBuffer
 			end
-			activeTextField.textValue = activeTextField.textBuffer
+			if not valid then
+				host:setActionbar("Invalid Value!")
+				return true
+			end
+			storage[activeTextField.boundDataKey] = mappedInput
 			activeTextField.textBuffer = ""
 			activeTextField = nil
 

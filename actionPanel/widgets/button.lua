@@ -70,13 +70,13 @@ function Button:theme(sprite, activeElement)
 	end
 end
 
-function Button:clickAction(button, action, modifier)
-	if self.toggle and action == 1 and button == 0 then
+function Button:clickAction(button, modifier)
+	if self.toggle and button == 0 then
 		self.isActive = not self.isActive
 		self.toggle(self.isActive)
-	elseif self.leftClick and action == 1 and button == 0 then
+	elseif self.leftClick and button == 0 then
 		self.leftClick()
-	elseif self.rightClick and action == 1 and button == 1 then
+	elseif self.rightClick and button == 1 then
 		self.rightClick()
 	end
 end

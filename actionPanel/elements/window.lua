@@ -1,9 +1,10 @@
-local actionPanel = require("../actionPanel")
+local actionPanel, storage = require("../actionPanel")
 local Box = require("../primitives/box")
 local List = require("../elements/list")
 local Text = require("../primitives/text")
 local Button = require("../widgets/button")
 local TextField = require("../widgets/textfield")
+local Slider = require("../widgets/slider")
 local Themes = require("../elements/themes")
 
 --[=============================================================================]--
@@ -93,18 +94,35 @@ function Window:newFolder(title)
 end
 
 function Window:newTextField(key, value, title)
+	storage[key] = value
 	local field = self.elements.listPart:addElement(TextField:new{
+		boundDataKey = key,
 		width = self.elements.listPart.width-3,
 		height = 17
 	})
 
 	field.title = title
-	field.textValue = value or ""
 	field.textBuffer = ""
 
 	field.children[1].text = title.." "..value
 	
 	return field
+end
+
+function Window:newSlider(key, value, title)
+	storage[key] = value
+	local slider = self.elements.listPart:addElement(Slider:new{
+		boundDataKey = key,
+		width = self.elements.listPart.width-3,
+		height = 17
+	})
+
+	slider.title = title
+	slider.textBuffer = ""
+
+	slider.children[1].text = title.." "..value
+	
+	return slider
 end
 
 function Window:render(sprite, activeElement)

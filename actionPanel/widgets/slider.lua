@@ -1,9 +1,11 @@
+local actionPanel, storage = require("../actionPanel")
+local TextField = require("../widgets/textfield")
 local Box = require("../primitives/box")
 local Text = require("../primitives/text")
 
 --[=============================================================================]--
 
-local Slider = Box:new{
+local Slider = TextField:new{
 	name = "slider",
 
 	width = 0,
@@ -11,11 +13,13 @@ local Slider = Box:new{
 
 	type = "fixed",
 
-	padding = {top = 5, left = 7, bottom = 5, right = 5}
+	padding = {top = 5, left = 7, bottom = 5, right = 5},
+
+	dataMap = function(n) return assert(tonumber(n)) end
 }
 Slider.color = nil
 
-do
+if false then
 	local new = Slider.new
 	function Slider:new(o)
 		o = new(self, o)
@@ -26,5 +30,7 @@ do
 end
 
 function Slider:dragAction(delta)
-	
+	storage[self.boundDataKey] = storage[self.boundDataKey] + delta.x
 end
+
+return Slider

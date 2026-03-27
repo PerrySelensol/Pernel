@@ -1,4 +1,5 @@
 local actionPanel = require("actionPanel/init")
+local _, storage = require("actionPanel/actionPanel")
 
 --[=============================================================================]--
 
@@ -36,14 +37,15 @@ local action = Window1:newAction("Button")
 action.leftClick = function() host:setActionbar("Clicked button") end
 local toggle = Window1:newAction("Toggle")
 toggle.toggle = function(state) host:setActionbar("Toggle set to "..(state and "true" or "false")) end
-local textfield1 = Window1:newTextField("test", "Some Text", "Text Field")
-local textfield2 = Window1:newTextField("test", "abc", "Field (exactly 3 chars)")
-function textfield2.verify(text) assert(text:len() == 3) end
+local textfield1 = Window1:newTextField("string1", "Some Text", "Text Field")
+local textfield2 = Window1:newTextField("string2", "abc", "Field (exactly 3 chars)")
+function textfield2.dataMap(text) assert(text:len() == 3) return text end
+local slider = Window1:newSlider("num1", 9, "Bumpscocity")
 
 function events.mouse_press(button, action, modifer)
 	--drint(button, action, modifer)
 end
 
 function events.render()
-	
+	--trint(1, storage)
 end
