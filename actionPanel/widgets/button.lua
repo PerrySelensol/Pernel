@@ -3,7 +3,7 @@ local Text = require("../primitives/text")
 
 --[=============================================================================]--
 
-local Button = Box:new{
+local Button = Box:newSubclass{
 	name = "button",
 
 	width = 0,
@@ -13,7 +13,6 @@ local Button = Box:new{
 
 	padding = {top = 5, left = 7, bottom = 5, right = 5}
 }
-Button.color = nil
 
 do
 	local new = Button.new

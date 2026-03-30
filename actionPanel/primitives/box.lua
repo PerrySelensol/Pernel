@@ -2,7 +2,7 @@ local UI_Elements = require("./uiElements")
 
 --[=============================================================================]--
 
-local Box = UI_Elements:new{
+local Box = UI_Elements:newSubclass{
 	name = "box",
 
 	width = 0,
@@ -13,7 +13,6 @@ local Box = UI_Elements:new{
 
 	padding = {top = 0, left = 0, bottom = 0, right = 0},
 	childgap = 0
-
 }
 
 do

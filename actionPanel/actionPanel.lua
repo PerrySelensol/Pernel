@@ -16,42 +16,43 @@ function actionPanel:initialize()
 	if not host:isHost() then return end
 
 	local highlightElement, clickElement, scrollElement
-	local mouseState = 0
+	local preDragValue
+	local mouseState = "hovering"
 
 	do
 		local button, action, modifier = 0,0,0
-		local moveAccum = vec(0,0)
+		local clickedPos = vec(0,0)
 
 		function events.mouse_press(b, a, m)
 			if not hudPart:getVisible() then return end
 
 			button, action, modifier = b, a, m
 
-			if action == 0 and mouseState == 0 and clickElement and clickElement.clickAction then
-				clickElement:clickAction(button, modifier)
-			end
-
-			if action == 1 then
-				clickedPos = client.getMousePos()
+			if action == 0 then
+				if mouseState == "hovering" and clickElement and clickElement.clickAction then
+					clickElement:clickAction(button, modifier)
+				end
+				mouseState = "hovering"
 			else
-				mouseState = 0
-				moveAccum:reset()
+				clickedPos = client.getMousePos()
+				if clickElement and clickElement.dragAction then
+					preDragValue = storage[clickElement.boundDataKey]
+				end
 			end
-
 		end
 
 		function events.mouse_move(dx, dy)
 			if not hudPart:getVisible() then return end
 
 			if action == 1 then
-				local s = 1/client.getGuiScale()
-				moveAccum:add(dx*s,dy*s)
+				local dragDist = (client.getMousePos()-clickedPos)/client.getGuiScale()
 
-				if moveAccum:lengthSquared() > 1 then
-					mouseState = 1
-					if clickElement and clickElement.dragAction then
-						clickElement:dragAction(vec(dx*s,dy*s))
-					end
+				if dragDist:lengthSquared() > 1 then
+					mouseState = "dragging"
+				end
+
+				if mouseState == "dragging" and clickElement and clickElement.dragAction then
+					clickElement:dragAction(preDragValue, dragDist)
 				end
 			end
 
@@ -86,7 +87,7 @@ function actionPanel:initialize()
 		activeWinUI:fitHeight()
 		activeWinUI:calculatePosition()
 
-		if mouseState == 0 then
+		if mouseState == "hovering" then
 			highlightElement, clickElement, scrollElement = activeWinUI:receiveCursorPos(mousePos)
 		end
 

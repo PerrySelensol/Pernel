@@ -4,23 +4,21 @@ local Text = require("../primitives/text")
 
 --[=============================================================================]--
 
-local TextField = Box:new{
+local TextField = Box:newSubclass{
 	name = "textbox",
-
-	width = 0,
-	height = 0,
-
 	type = "fixed",
 
-	padding = {top = 5, left = 7, bottom = 5, right = 5}
+	padding = {top = 5, left = 7, bottom = 5, right = 5},
 }
-TextField.color = nil
 
 do
 	local new = TextField.new
-	function TextField:new(o)
+	function TextField:new(o, initValue)
 		o = new(self, o)
-		o:addElement(Text:new())
+		storage[o.boundDataKey] = initValue
+
+		local label = o:addElement(Text:new())
+		label.text = o.title.." "..(initValue or "")
 		return o
 	end
 end
@@ -51,33 +49,6 @@ function TextField:theme(sprite, activeElement, activeTextField)
 		self.height,
 		accent
 	)
-	if self.toggle then
-		sprite:fill(
-			self.pos.x+self.width-13,
-			self.pos.y+4,
-			9,
-			9,
-			vec(1,1,1)
-		)
-		sprite:fill(
-			self.pos.x+self.width-12,
-			self.pos.y+5,
-			7,
-			7,
-			accent
-		)
-		if self.isActive then
-			sprite:fill(
-				self.pos.x+self.width-11,
-				self.pos.y+6,
-				5,
-				5,
-				self.color
-			)
-		end
-	else
-
-	end
 end
 
 return TextField

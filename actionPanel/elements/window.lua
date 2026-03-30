@@ -93,34 +93,30 @@ function Window:newFolder(title)
 	return window
 end
 
-function Window:newTextField(key, value, title)
-	storage[key] = value
-	local field = self.elements.listPart:addElement(TextField:new{
-		boundDataKey = key,
+function Window:newTextField(key, initValue, title)
+	local field = self.elements.listPart:addElement(TextField:new({
 		width = self.elements.listPart.width-3,
-		height = 17
-	})
+		height = 17,
 
-	field.title = title
-	field.textBuffer = ""
-
-	field.children[1].text = title.." "..value
+		boundDataKey = key,
+		title = title,
+		textBuffer = ""
+	}, initValue))
 	
 	return field
 end
 
-function Window:newSlider(key, value, title)
-	storage[key] = value
-	local slider = self.elements.listPart:addElement(Slider:new{
-		boundDataKey = key,
+function Window:newSlider(key, initValue, title, min, max)
+	local slider = self.elements.listPart:addElement(Slider:new({
 		width = self.elements.listPart.width-3,
-		height = 17
-	})
+		height = 17,
 
-	slider.title = title
-	slider.textBuffer = ""
-
-	slider.children[1].text = title.." "..value
+		boundDataKey = key,
+		title = title,
+		textBuffer = "",
+		sliderMin = min,
+		sliderMax = max
+	}, initValue))
 	
 	return slider
 end

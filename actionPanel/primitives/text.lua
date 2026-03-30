@@ -3,7 +3,7 @@ local hudPart, sprite, Text_Tasks = require("./uiTasks")
 
 --[=============================================================================]--
 
-local Text = UI_Elements:new{
+local Text = UI_Elements:newSubclass{
 	name = "text",
 
 	width = 0,

@@ -9,6 +9,8 @@ function UI_Elements:new(o)
 	return o
 end
 
+UI_Elements.newSubclass = UI_Elements.new
+
 function UI_Elements:addElement(element)
 	element.parent = self
 	table.insert(self.children, element)
