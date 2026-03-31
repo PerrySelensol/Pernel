@@ -26,6 +26,11 @@ do
 	end
 end
 
+function Box:setColor(color)
+	self.color = color
+	return self
+end
+
 function Box:theme(sprite, activeElement)
 	sprite:fill(
 		self.pos.x,
