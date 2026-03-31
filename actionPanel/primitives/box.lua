@@ -26,14 +26,7 @@ do
 	end
 end
 
-<<<<<<< HEAD
 function Box:setColor(color) self.color = color return self end
-=======
-function Box:setColor(color)
-	self.color = color
-	return self
-end
->>>>>>> 7f8a200a2487bc4df052c57ce8805203c262d775
 
 function Box:theme(sprite, activeElement)
 	sprite:fill(
