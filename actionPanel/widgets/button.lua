@@ -69,6 +69,10 @@ function Button:theme(sprite, activeElement)
 	end
 end
 
+function Button:onLeftClick(func) self.leftClick = func return self end
+function Button:onRightClick(func) self.rightClick = func return self end
+function Button:onToggle(func) self.toggle = func return self end
+
 function Button:clickAction(button, modifier)
 	if self.toggle and button == 0 then
 		self.isActive = not self.isActive

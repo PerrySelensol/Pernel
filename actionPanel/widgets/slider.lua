@@ -22,13 +22,16 @@ function Slider:dragAction(preDragValue, dragDist)
 	else
 		delta = delta/10
 	end
-	local v = math.round((preDragValue + delta)*10)/10
+	local increment = self.increment or 0.1
+	local v = math.round((preDragValue + delta)/increment)*increment
 	if min and max and preDragValue >= min and preDragValue <= max then
 		storage[self.boundDataKey] = math.clamp(v, min, max)
 	else
 		storage[self.boundDataKey] = v
 	end
 end
+
+function Slider:setStep(increment) self.increment = increment return self end
 
 function Slider:theme(sprite, activeElement, activeTextField)
 	local accent = vec(0,0,0,192)/255

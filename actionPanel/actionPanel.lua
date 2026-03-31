@@ -62,8 +62,8 @@ function actionPanel:initialize()
 			if not hudPart:getVisible() then return end
 			if scrollElement and scrollElement.scrollAction then
 				scrollElement:scrollAction(delta)
-				return true
 			end
+			return true
 		end
 
 	end

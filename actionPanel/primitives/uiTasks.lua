@@ -15,4 +15,22 @@ hudPart:newSprite("UI")
 local Text_Tasks = {index = 1}
 for i = 1, 20 do Text_Tasks[i] = hudPart:newText("UIText"..i):shadow(true):setVisible(false) end
 
+-- Hot fix: R & B channels are swapped in 1.21.4 --
+	if client.getVersion() == "1.21.4" then
+		local oldSprite = sprite
+		sprite = {
+			fill = function(self, x, y, width, height, ...)
+				local r, g, b, a = ...
+				if r.x then
+					oldSprite:fill(x, y, width, height, r.zyxw)
+				else
+					oldSprite:fill(x, y, width, height, b, g, r, a)
+				end
+				return self
+			end,
+			update = function(self) oldSprite:update() return self end
+		}
+	end
+-- ============================================== --
+
 return hudPart, sprite, Text_Tasks
