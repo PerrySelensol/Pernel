@@ -40,6 +40,7 @@ function Button:theme(sprite, activeElement)
 		self.height,
 		accent
 	)
+
 	if self.toggle then
 		sprite:fill(
 			self.pos.x+self.width-13,
@@ -65,7 +66,13 @@ function Button:theme(sprite, activeElement)
 			)
 		end
 	else
-
+		sprite:fill(
+			self.pos.x+1,
+			self.pos.y+2,
+			1,
+			13,
+			self.color:augmented(192/255)
+		)
 	end
 end
 

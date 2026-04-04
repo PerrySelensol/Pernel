@@ -13,12 +13,12 @@ local TextField = Box:newSubclass{
 
 do
 	local new = TextField.new
-	function TextField:new(o, initValue)
+	function TextField:new(o, set, get)
 		o = new(self, o)
-		storage[o.boundDataKey] = initValue
+		o.set, o.get = set, get
 
 		local label = o:addElement(Text:new())
-		label.text = o.title.." "..(initValue or "")
+		label.text = o.title.." "..(get() or "")
 		return o
 	end
 end

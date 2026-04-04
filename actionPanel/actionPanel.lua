@@ -5,7 +5,6 @@ local hudPart, sprite, Text_Tasks = require("./primitives/uiTasks")
 local activeWindow
 local activeTextField
 local actionPanel = {}
-local storage = {}
 
 function actionPanel:setWindow(win) activeWindow = win end
 function actionPanel:setTextField(field) activeTextField = field end
@@ -36,7 +35,7 @@ function actionPanel:initialize()
 			else
 				clickedPos = client.getMousePos()
 				if clickElement and clickElement.dragAction then
-					preDragValue = storage[clickElement.boundDataKey]
+					preDragValue = clickElement.get()
 				end
 			end
 		end
@@ -94,11 +93,7 @@ function actionPanel:initialize()
 		activeWinUI:render(sprite, highlightElement, activeTextField)
 		sprite:update()
 
-		--drint(
-		--	highlightElement and highlightElement.name,
-		--	clickElement and clickElement.name,
-		--	scrollElement and scrollElement.name
-		--)
+		--trint(1, highlightElement)
 	end
 
 	function events.char_typed(char, modifier, codepoint)
@@ -137,7 +132,7 @@ function actionPanel:initialize()
 				host:setActionbar("Invalid Value!")
 				return true
 			end
-			storage[activeTextField.boundDataKey] = mappedInput
+			activeTextField.set(mappedInput)
 			activeTextField.textBuffer = ""
 			activeTextField = nil
 
@@ -175,4 +170,4 @@ keyUp.press = function()
 	end
 end
 
-return actionPanel, storage
+return actionPanel

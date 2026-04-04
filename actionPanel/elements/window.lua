@@ -83,40 +83,39 @@ local function folderTheme(self, sprite, activeElement)
 	)
 end
 
-function Window:newFolder(title)
+function Window:newFolder(title, color)
 	local window = self:new(title, self.winPos, self.winSize)
 	window.parentDirectory = self
 
 	local action = self:newAction(title)
+	if color then action:setColor(color) end
 	action.theme = folderTheme
 	action.leftClick = function() actionPanel:setWindow(window) end
 	return window
 end
 
-function Window:newTextField(key, initValue, title)
+function Window:newTextField(title, set, get)
 	local field = self.elements.listPart:addElement(TextField:new({
 		width = self.elements.listPart.width-3,
 		height = 17,
 
-		boundDataKey = key,
 		title = title,
 		textBuffer = ""
-	}, initValue))
+	}, set, get))
 	
 	return field
 end
 
-function Window:newSlider(key, initValue, title, min, max)
+function Window:newSlider(title, min, max, set, get)
 	local slider = self.elements.listPart:addElement(Slider:new({
 		width = self.elements.listPart.width-3,
 		height = 17,
 
-		boundDataKey = key,
 		title = title,
 		textBuffer = "",
 		sliderMin = min,
 		sliderMax = max
-	}, initValue))
+	}, set, get))
 	
 	return slider
 end

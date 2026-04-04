@@ -19,10 +19,9 @@ for i = 1, 20 do Text_Tasks[i] = hudPart:newText("UIText"..i):shadow(true):setVi
 	if client.getVersion() == "1.21.4" then
 		local oldSprite = sprite
 		sprite = {
-			fill = function(self, x, y, width, height, ...)
-				local r, g, b, a = ...
-				if r.x then
-					oldSprite:fill(x, y, width, height, r.zyxw)
+			fill = function(self, x, y, width, height, r, g, b, a)
+				if not g then
+					oldSprite:fill(x, y, width, height, r.zyx:augmented(r.w or 1))
 				else
 					oldSprite:fill(x, y, width, height, b, g, r, a)
 				end

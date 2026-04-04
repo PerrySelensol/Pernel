@@ -25,9 +25,9 @@ function Slider:dragAction(preDragValue, dragDist)
 	local increment = self.increment or 0.1
 	local v = math.round((preDragValue + delta)/increment)*increment
 	if min and max and preDragValue >= min and preDragValue <= max then
-		storage[self.boundDataKey] = math.clamp(v, min, max)
+		self.set(math.clamp(v, min, max))
 	else
-		storage[self.boundDataKey] = v
+		self.set(v)
 	end
 end
 
@@ -43,7 +43,7 @@ function Slider:theme(sprite, activeElement, activeTextField)
 	end
 
 	if active then self.children[1].text = self.title.." : "..self.textBuffer.."_"
-	else self.children[1].text = self.title.." : "..storage[self.boundDataKey]
+	else self.children[1].text = self.title.." : "..self.get()
 	end
 
 	sprite:fill(
@@ -57,7 +57,7 @@ function Slider:theme(sprite, activeElement, activeTextField)
 	local min, max = self.sliderMin, self.sliderMax
 	if min and max then
 		local color = (self.color/(selected and 1.5 or 3)):augmented(192/255)
-		local a = storage[self.boundDataKey]-min
+		local a = self.get()-min
 		local b = math.max(1,max-min)
 		local factor = math.clamp(a/b, 0, 1)
 		sprite:fill(
