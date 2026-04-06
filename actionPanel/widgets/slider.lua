@@ -62,9 +62,9 @@ function Slider:theme(sprite, activeElement, activeTextField)
 		local factor = math.clamp(a/b, 0, 1)
 		sprite:fill(
 			self.pos.x,
-			self.pos.y,
+			self.pos.y+1,
 			math.floor(self.width*factor),
-			self.height,
+			self.height-2,
 			color
 		)
 	end
