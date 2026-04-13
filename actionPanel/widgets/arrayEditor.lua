@@ -1,4 +1,4 @@
-local actionPanel, storage = require("../actionPanel")
+local actionPanel = require("../actionPanel")
 local Box = require("../primitives/box")
 local Text = require("../primitives/text")
 

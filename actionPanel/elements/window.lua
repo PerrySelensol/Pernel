@@ -1,8 +1,9 @@
-local actionPanel, storage = require("../actionPanel")
+local actionPanel = require("../actionPanel")
 local Box = require("../primitives/box")
 local List = require("../elements/list")
 local Text = require("../primitives/text")
 local Button = require("../widgets/button")
+local LinkedToggle = require("../widgets/linkedToggle")
 local TextField = require("../widgets/textfield")
 local Slider = require("../widgets/slider")
 local Themes = require("../elements/themes")
@@ -61,6 +62,17 @@ function Window:newAction(title)
 	})
 	action.children[1].text = title
 	return action
+end
+
+function Window:newLinkedToggle(title, set, get)
+	local toggle = self.elements.listPart:addElement(LinkedToggle:new({
+		width = self.elements.listPart.width-3,
+		height = 17,
+
+		title = title,
+	}, set, get))
+	
+	return toggle
 end
 
 local function folderTheme(self, sprite, activeElement)

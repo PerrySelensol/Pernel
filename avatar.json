@@ -4,6 +4,6 @@
 	"color": "#80d0ff",
 	"autoScripts": [
 		"xrinters.lua",
-		"main.lua"
+		"demo.lua"
 	]
 }

@@ -136,6 +136,17 @@ function actionPanel:initialize()
 			activeTextField.textBuffer = ""
 			activeTextField = nil
 
+		elseif key == 69 then -- E
+
+			if activeTextField then
+				return true
+			else
+				hudPart:setVisible(false)
+				host.unlockCursor = false
+				renderer.renderCrosshair = true
+			end
+			return true
+
 		elseif activeTextField then
 
 			return true

@@ -56,7 +56,7 @@ function Button:theme(sprite, activeElement)
 			7,
 			accent
 		)
-		if self.isActive then
+		if active then
 			sprite:fill(
 				self.pos.x+self.width-11,
 				self.pos.y+6,

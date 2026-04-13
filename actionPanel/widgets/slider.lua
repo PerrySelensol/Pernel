@@ -1,4 +1,4 @@
-local actionPanel, storage = require("../actionPanel")
+local actionPanel = require("../actionPanel")
 local TextField = require("../widgets/textfield")
 local Box = require("../primitives/box")
 local Text = require("../primitives/text")
@@ -15,7 +15,7 @@ local Slider = TextField:newSubclass{
 }
 
 function Slider:dragAction(preDragValue, dragDist)
-	local delta = dragDist.x
+	local delta = dragDist.x or 0
 	local min, max = self.sliderMin, self.sliderMax
 	if min and max then
 		delta = delta*(max-min)/self.width

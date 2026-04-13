@@ -1,5 +1,4 @@
 local actionPanel = require("actionPanel/init")
-local _, storage = require("actionPanel/actionPanel")
 
 --[=============================================================================]--
 
