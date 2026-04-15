@@ -51,6 +51,7 @@ function actionPanel:initialize()
 				end
 
 				if mouseState == "dragging" and clickElement and clickElement.dragAction then
+					if not preDragValue and dragDist then return end
 					clickElement:dragAction(preDragValue, dragDist)
 				end
 			end

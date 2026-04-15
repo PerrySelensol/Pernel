@@ -15,7 +15,7 @@ local Slider = TextField:newSubclass{
 }
 
 function Slider:dragAction(preDragValue, dragDist)
-	local delta = dragDist.x or 0
+	local delta = dragDist.x
 	local min, max = self.sliderMin, self.sliderMax
 	if min and max then
 		delta = delta*(max-min)/self.width
