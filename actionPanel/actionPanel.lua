@@ -8,6 +8,7 @@ local actionPanel = {}
 
 function actionPanel:setWindow(win) activeWindow = win end
 function actionPanel:setTextField(field) activeTextField = field end
+function actionPanel:getVisible() return hudPart:getVisible() end
 
 -- ============ Register Events ============ --
 
@@ -123,17 +124,15 @@ function actionPanel:initialize()
 
 		elseif key == 257 and activeTextField then -- Enter
 
-			local valid, mappedInput = true, nil
-			if activeTextField.dataMap then
-				valid, mappedInput = pcall(activeTextField.dataMap, activeTextField.textBuffer)
-			else
-				mappedInput = activeTextField.textBuffer
+			local valid = true
+			if activeTextField.validator then
+				valid = pcall(activeTextField.validator, activeTextField.textBuffer)
 			end
 			if not valid then
 				host:setActionbar("Invalid Value!")
 				return true
 			end
-			activeTextField.set(mappedInput)
+			activeTextField.set(activeTextField.textBuffer)
 			activeTextField.textBuffer = ""
 			activeTextField = nil
 
