@@ -42,7 +42,7 @@ function TextField:theme(sprite, activeElement, activeTextField)
 	end
 
 	if active then self.children[1].text = self.title.." : "..self.textBuffer.."_"
-	else self.children[1].text = self.title.." : "..storage[self.boundDataKey]
+	else self.children[1].text = self.title.." : "..self.get()
 	end
 
 	sprite:fill(
