@@ -117,11 +117,14 @@ function actionPanel:initialize()
 				host.unlockCursor = false
 				renderer.renderCrosshair = true
 			end
+			return true
 		elseif key == 259 and activeTextField then -- Backspace
 			activeTextField.textBuffer = activeTextField.textBuffer:sub(1, -2)
+			return true
 		elseif key == 257 and activeTextField then -- Enter
 			if not activeTextField:confirmEnteredText() then return true end
 			activeTextField = nil
+			return true
 		end
 
 		if activeTextField then return true end
@@ -131,10 +134,12 @@ function actionPanel:initialize()
 			hudPart:setVisible(false)
 			host.unlockCursor = false
 			renderer.renderCrosshair = true
+			return true
 		elseif key == 86 and modifer == 1 then -- Shift + V
 			if highlightElement and highlightElement.pasteAction then
 				highlightElement:pasteAction(host:getClipboard())
 			end
+			return true
 		end
 	end
 
