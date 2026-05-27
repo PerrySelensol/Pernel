@@ -51,12 +51,31 @@ action.leftClick = function() host:setActionbar("Clicked button") end
 local toggle = Window1:newAction("Toggle")
 toggle.toggle = function(state) host:setActionbar("Toggle set to "..(state and "true" or "false")) end
 
-local textfield1 = Window1:newTextField("string1", "some string", "Text Field")
+local string1 = "some string"
+local textfield1 = Window1:newTextField(
+	"Text Field",
+	function(x) string1 = x end,
+	function() return string1 end
+)
 
-local textfield2 = Window1:newTextField("string2", "abc", "Field (exactly 3 chars)")
+local num1 = 40
+local textfield2 = Window1:newTextField(
+	"Number",
+	function(x) num1 = x end,
+	function() return tonumber(num1) end
+)
+function textfield2.dataMap(text) return assert(tonumber(text)) end
 
-function textfield2.dataMap(text) assert(text:len() == 3) return text end
+local fac = 1.2
+local slider1 = Window1:newSlider(
+	"Factor", 1, 2,
+	function(x) fac = tonumber(x) end,
+	function() return fac end
+)
 
-local slider1 = Window1:newSlider("num1", 1.2, "Factor", 1, 2)
-
-local slider2 = Window1:newSlider("num2", 90, "Bumpscocity")
+local bumpscocity = 90
+local slider2 = Window1:newSlider(
+	"Bumpscocity", nil, nil,
+	function(x) bumpscocity = tonumber(x) end,
+	function() return bumpscocity end
+)
