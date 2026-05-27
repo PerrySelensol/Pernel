@@ -8,6 +8,7 @@ local actionPanel = {}
 
 function actionPanel:setWindow(win) activeWindow = win end
 function actionPanel:setTextField(field) activeTextField = field end
+function actionPanel:getTextField() return activeTextField end
 function actionPanel:getVisible() return hudPart:getVisible() end
 
 -- ============ Register Events ============ --
@@ -124,16 +125,7 @@ function actionPanel:initialize()
 
 		elseif key == 257 and activeTextField then -- Enter
 
-			local valid = true
-			if activeTextField.validator then
-				valid = pcall(activeTextField.validator, activeTextField.textBuffer)
-			end
-			if not valid then
-				host:setActionbar("Invalid Value!")
-				return true
-			end
-			activeTextField.set(activeTextField.textBuffer)
-			activeTextField.textBuffer = ""
+			if not activeTextField:confirmEnteredText() then return true end
 			activeTextField = nil
 
 		elseif key == 69 then -- E

@@ -26,6 +26,8 @@ end
 
 function TextField:clickAction(button, modifier)
 	if button == 0 then
+		local lastField = actionPanel:getTextField()
+		if lastField and not lastField:confirmEnteredText() then return end
 		actionPanel:setTextField(self)
 	end
 end
@@ -50,6 +52,21 @@ function TextField:theme(sprite, activeElement, activeTextField)
 		self.height,
 		accent
 	)
+end
+
+function TextField:confirmEnteredText()
+	local success = true
+	if self.dataMap then success = pcall(self.dataMap, self.textBuffer) end
+
+	if not success then
+		host:setActionbar("Invalid Value!")
+		return success
+	end
+
+	self.set(self.textBuffer)
+	self.textBuffer = ""
+	
+	return success
 end
 
 function Window:newTextField(title, set, get)
