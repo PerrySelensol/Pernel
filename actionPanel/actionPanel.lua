@@ -34,7 +34,7 @@ function actionPanel:initialize()
 					clickElement:clickAction(button, modifier)
 				end
 				mouseState = "hovering"
-			else
+			elseif button == 0 then
 				clickedPos = client.getMousePos()
 				if clickElement and clickElement.dragAction then
 					preDragValue = clickElement.get()
@@ -45,7 +45,7 @@ function actionPanel:initialize()
 		function events.mouse_move(dx, dy)
 			if not hudPart:getVisible() then return end
 
-			if action == 1 then
+			if button == 0 and action == 1 then
 				local dragDist = (client.getMousePos()-clickedPos)/client.getGuiScale()
 
 				if dragDist:lengthSquared() > 1 then
@@ -107,8 +107,8 @@ function actionPanel:initialize()
 	function events.key_press(key, action, modifer)
 		if not (hudPart:getVisible() and action >= 1) then return end
 
+		-- ====== Keys working anywhere ====== --
 		if key == 256 then -- Esc
-
 			if activeTextField then
 				activeTextField.textBuffer = ""
 				activeTextField = nil
@@ -117,34 +117,27 @@ function actionPanel:initialize()
 				host.unlockCursor = false
 				renderer.renderCrosshair = true
 			end
-			return true
-
 		elseif key == 259 and activeTextField then -- Backspace
-
 			activeTextField.textBuffer = activeTextField.textBuffer:sub(1, -2)
-
 		elseif key == 257 and activeTextField then -- Enter
-
 			if not activeTextField:confirmEnteredText() then return true end
 			activeTextField = nil
-
-		elseif key == 69 then -- E
-
-			if activeTextField then
-				return true
-			else
-				hudPart:setVisible(false)
-				host.unlockCursor = false
-				renderer.renderCrosshair = true
-			end
-			return true
-
-		elseif activeTextField then
-
-			return true
-
 		end
 
+		if activeTextField then return true end
+
+		-- ====== Keys working outside using textfield ====== --
+		if key == 69 then -- E
+			hudPart:setVisible(false)
+			host.unlockCursor = false
+			renderer.renderCrosshair = true
+		elseif key == 86 and modifer == 1 then -- Shift + V
+			if highlightElement and highlightElement.pasteAction then
+				highlightElement:pasteAction(host:getClipboard())
+			end
+		end
+
+		return true
 	end
 
 end
