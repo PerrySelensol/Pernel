@@ -1,3 +1,4 @@
+local Window = require("../elements/window")
 local Box = require("../primitives/box")
 local Text = require("../primitives/text")
 
@@ -89,6 +90,15 @@ function Button:clickAction(button, modifier)
 	elseif self.rightClick and button == 1 then
 		self.rightClick()
 	end
+end
+
+function Window:newAction(title)
+	local action = self.elements.listPart:addElement(Button:new{
+		width = self.elements.listPart.width-3,
+		height = 17
+	})
+	action.children[1].text = title
+	return action
 end
 
 return Button

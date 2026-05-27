@@ -1,3 +1,4 @@
+local Window = require("../elements/window")
 local actionPanel = require("../actionPanel")
 local Box = require("../primitives/box")
 local Text = require("../primitives/text")
@@ -49,6 +50,18 @@ function TextField:theme(sprite, activeElement, activeTextField)
 		self.height,
 		accent
 	)
+end
+
+function Window:newTextField(title, set, get)
+	local field = self.elements.listPart:addElement(TextField:new({
+		width = self.elements.listPart.width-3,
+		height = 17,
+
+		title = title,
+		textBuffer = ""
+	}, set, get))
+	
+	return field
 end
 
 return TextField

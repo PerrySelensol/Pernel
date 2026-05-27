@@ -1,5 +1,6 @@
 local actionPanel = require("./actionPanel")
 local Window = require("./elements/window")
+for _, path in next, listFiles("./widgets", true) do require(path) end
 
 --[=============================================================================]--
 

@@ -1,7 +1,5 @@
-local actionPanel = require("../actionPanel")
+local Window = require("../elements/window")
 local TextField = require("../widgets/textfield")
-local Box = require("../primitives/box")
-local Text = require("../primitives/text")
 
 --[=============================================================================]--
 
@@ -69,6 +67,20 @@ function Slider:theme(sprite, activeElement, activeTextField)
 		)
 	end
 
+end
+
+function Window:newSlider(title, min, max, set, get)
+	local slider = self.elements.listPart:addElement(Slider:new({
+		width = self.elements.listPart.width-3,
+		height = 17,
+
+		title = title,
+		textBuffer = "",
+		sliderMin = min,
+		sliderMax = max
+	}, set, get))
+	
+	return slider
 end
 
 return Slider

@@ -1,4 +1,4 @@
-local actionPanel = require("../actionPanel")
+local Window = require("../elements/window")
 local Box = require("../primitives/box")
 local Text = require("../primitives/text")
 
@@ -69,6 +69,17 @@ function LinkedToggle:theme(sprite, activeElement, activeTextField)
 			self.color
 		)
 	end
+end
+
+function Window:newLinkedToggle(title, set, get)
+	local toggle = self.elements.listPart:addElement(LinkedToggle:new({
+		width = self.elements.listPart.width-3,
+		height = 17,
+
+		title = title,
+	}, set, get))
+	
+	return toggle
 end
 
 return LinkedToggle
