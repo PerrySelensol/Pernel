@@ -6,10 +6,6 @@ local Text = require("../primitives/text")
 
 local Button = Box:newSubclass{
 	name = "button",
-
-	width = 0,
-	height = 0,
-
 	type = "fixed",
 
 	padding = {top = 5, left = 7, bottom = 5, right = 5}
