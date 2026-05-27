@@ -136,8 +136,6 @@ function actionPanel:initialize()
 				highlightElement:pasteAction(host:getClipboard())
 			end
 		end
-
-		return true
 	end
 
 end
