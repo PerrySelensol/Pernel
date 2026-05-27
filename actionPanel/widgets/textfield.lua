@@ -55,15 +55,15 @@ function TextField:theme(sprite, activeElement, activeTextField)
 end
 
 function TextField:confirmEnteredText()
-	local success = true
-	if self.dataMap then success = pcall(self.dataMap, self.textBuffer) end
+	local success, data = true, self.textBuffer
+	if self.dataMap then success, data = pcall(self.dataMap, self.textBuffer) end
 
 	if not success then
 		host:setActionbar("Invalid Value!")
 		return success
 	end
 
-	self.set(self.textBuffer)
+	self.set(data)
 	self.textBuffer = ""
 	
 	return success
