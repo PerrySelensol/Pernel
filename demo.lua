@@ -59,6 +59,7 @@ local slider2 = Window1:newSlider(
 )
 
 -- Color sliders: also accepts pasting hex with Shift+V
+-- Can also add palette of your favourite colors
 local r1, g1, b1 = 255, 255, 255
 local rgb = Window1:newRGB(
 	"Color",
@@ -69,3 +70,9 @@ local rgb = Window1:newRGB(
 	function() return g1 end,
 	function() return b1 end
 )
+
+local fav_colors = {
+	vec(  0,255,128),
+	vec(  0,  0,255)
+}
+rgb:addPalette(fav_colors)

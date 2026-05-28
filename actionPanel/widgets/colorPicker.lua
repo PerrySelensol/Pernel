@@ -71,6 +71,20 @@ local function pasteColor(self, clip)
 	self.r_set(r); self.g_set(g); self.b_set(b)
 end
 
+local function addPalette(self, palette)
+	for _, color in ipairs(palette) do
+		local a = self.linkedAction
+		self:newAction(
+				'[{"text":"█:back1:█:back1:█:back1:█:back1:█:back1:█", "color":"#'
+				..vectors.rgbToHex(color/255)..
+				'"}]'
+			)
+			:setColor(color/255)
+			:onLeftClick(function() a.r_set(color.x); a.g_set(color.y); a.b_set(color.z) end)
+	end
+	return self
+end
+
 function Window:newRGB(title, r_set, g_set, b_set, r_get, g_get, b_get)
 	local window = self:new(title, self.winPos, self.winSize)
 	window.parentDirectory = self
@@ -89,9 +103,12 @@ function Window:newRGB(title, r_set, g_set, b_set, r_get, g_get, b_get)
 	preview.r_set, preview.g_set, preview.b_set = r_set, g_set, b_set
 	preview.r_get, preview.g_get, preview.b_get = r_get, g_get, b_get
 
+	window.linkedAction = action
 	window:newSlider("Red",   0, 255, r_set, r_get):setColor(vec(1,0,0)):setStep(1)
 	window:newSlider("Green", 0, 255, g_set, g_get):setColor(vec(0,1,0)):setStep(1)
 	window:newSlider("Blue",  0, 255, b_set, b_get):setColor(vec(0,0,1)):setStep(1)
 
-	return action
+	window.addPalette = addPalette
+
+	return window
 end
