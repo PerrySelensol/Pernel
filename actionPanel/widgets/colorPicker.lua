@@ -75,7 +75,7 @@ local function addPalette(self, palette)
 	for _, color in ipairs(palette) do
 		local a = self.linkedAction
 		self:newAction(
-				'[{"text":"█:back1:█:back1:█:back1:█:back1:█:back1:█", "color":"#'
+				'[{"text":"██████", "color":"#'
 				..vectors.rgbToHex(color/255)..
 				'"}]'
 			)
